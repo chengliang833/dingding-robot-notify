@@ -1,0 +1,58 @@
+//package top.ulane.dingdingrobotnotify;
+//
+//import com.dingtalk.api.DefaultDingTalkClient;
+//import com.dingtalk.api.DingTalkClient;
+//import com.dingtalk.api.request.OapiConnectorTriggerSendV2Request;
+//import com.dingtalk.api.request.OapiConnectorTriggerSendV2Request.TriggerMsgData;
+//import com.dingtalk.api.request.OapiConnectorTriggerSendV2Request.TriggerMsgRequest;
+//import com.dingtalk.api.response.OapiConnectorTriggerSendV2Response;
+//import com.taobao.api.ApiException;
+//import com.taobao.api.internal.util.StringUtils;
+//import java.util.ArrayList;
+//import java.util.Date;
+//import java.util.List;
+//
+//public class SendMsg {
+//
+//	private static String url = "";
+//	private static String secret = "";
+//
+//	/**
+//	 * 连接器事件发送
+//	 *
+//	 * @param args
+//	 */
+//	public static void main(String[] args) {
+//		try {
+//			// 获取access_token
+////			String access_token = AccessTokenUtil.getToken();
+//			long timestamp = System.currentTimeMillis();
+//			String sign = UrlSign.getSign(timestamp, secret);
+//
+//			DingTalkClient client = new DefaultDingTalkClient(url+"&timestamp="+timestamp+"&sign="+sign);
+//			OapiConnectorTriggerSendV2Request req = new OapiConnectorTriggerSendV2Request();
+//			TriggerMsgRequest obj1 = new TriggerMsgRequest();
+//
+//			List<TriggerMsgData> triggerMsgDataList = new ArrayList<TriggerMsgData>();
+//			TriggerMsgData triggerMsgData = new TriggerMsgData();
+//			triggerMsgDataList.add(triggerMsgData);
+//			// 事件ID。改为你的触发事件ID，可以在在开发者后台的连接器页面查看。
+//			triggerMsgData.setTriggerId("customEventId-001");
+//			// 数据模型 需要与创建连接器时设置的数据模型保持一致
+//			triggerMsgData.setJsonData("{\"msgtype\":\"text\",\"content\":{\"phone\":\"13212345678\",\"name\":\"钉三多\",\"text\":\"这里是短信内容\"}}");
+//			// 事件真实触发的时间。
+//			triggerMsgData.setDdEventTime(new Date());
+//
+//			obj1.setTriggerMsgDataList(triggerMsgDataList);
+//			req.setTriggerMsgRequest(obj1);
+////			req.settype
+////			OapiConnectorTriggerSendV2Response rsp = client.execute(req, access_token);
+//			OapiConnectorTriggerSendV2Response rsp = client.execute(req);
+//			System.out.println(rsp.getBody());
+//		} catch (ApiException e) {
+//			e.printStackTrace();
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//	}
+//}

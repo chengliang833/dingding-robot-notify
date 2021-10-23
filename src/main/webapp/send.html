@@ -1,0 +1,58 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>提交</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script type="text/javascript">
+        var liIndex = 0;
+        window.onload=function () {
+            $("#send").click(function () {
+                let msg = $("#textcont").val();
+                if(!msg){
+                    return;
+                }
+                let liIndexTemp = liIndex;
+                liIndex++;
+                $("#msg-cont").prepend($("<li style='font-size:14px;'>" +
+                    "<p id='lip1_"+liIndexTemp+"'></p>" +
+                    "<p>[<span id='lispan"+liIndexTemp+"' style='color:blue;'>发送中...</span>]</p>" +
+                    "</li>"));
+                $("#lip1_"+liIndexTemp).text(msg);
+                jQuery.ajax( {
+                    url : "sendMsg",
+                    cache : false,
+                    data:JSON.stringify({"msg":msg}),
+                    type : "POST",
+                    beforeSend: function(request) {
+                        request.setRequestHeader("Content-Type","application/json; charset=UTF-8");
+                    },
+                    success : function(data, testStatus) {
+                        console.log(data);
+                        let msg;
+                        if(data.code == 0){
+                            msg = "发送成功";
+                        }else{
+                            msg = "发送失败："+data.msg;
+                        }
+                        $("#lispan"+liIndexTemp).text(msg);
+                    },
+                    error : function(XMLHttpRequest, textStatus, errorThrown) {
+                    }
+                });
+            });
+        }
+    </script>
+</head>
+
+<body>
+    <textarea id="textcont" rows="5" cols="50"></textarea>
+    <br/>
+    <br/>
+    <button id="send">提交</button>
+    <ul id="msg-cont">
+    </ul>
+</body>
+</html>
