@@ -25,7 +25,10 @@ public class ResponseData <T> implements Serializable {
 	public static ResponseData success(){
 		return new ResponseData();
 	}
-	
+	public static <T> ResponseData success(T data){
+		return new ResponseData(data);
+	}
+
 	public static ResponseData error(String msg){
 		return new ResponseData(9999, msg);
 	}

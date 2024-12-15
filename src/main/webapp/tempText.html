@@ -1,0 +1,89 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>文本缓存</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script type="text/javascript" src="util.js"></script>
+    <script type="text/javascript">
+        window.onload=function () {
+            loadContent();
+            $("#save").click(function () {
+                $("#resultShow").text('请求中...');
+                jQuery.ajax( {
+                    url : "textTemp/saveText",
+                    cache : false,
+                    data:JSON.stringify({"idx":0,"text":$("#textcont").val()}),
+                    type : "POST",
+                    beforeSend: function(request) {
+                        request.setRequestHeader("Content-Type","application/json; charset=UTF-8");
+                    },
+                    success : function(data, testStatus) {
+                        console.log(data);
+                        let dateStr = formatDateTime(new Date, 'yyyy-MM-dd hh:mm:ss.SSS');
+                        if(data.code == 0){
+                            $("#resultShow").text(dateStr + '，保存成功');
+                        }else{
+                            $("#resultShow").text(dateStr + '，保存失败');
+                        }
+                    },
+                    error : function(XMLHttpRequest, textStatus, errorThrown) {
+                        $("#resultShow").text(formatDateTime(new Date, 'yyyy-MM-dd hh:mm:ss.SSS') + '，保存失败');
+                    }
+                });
+            });
+            $("#clear").click(function () {
+                $("#textcont").val(null);
+                $("#resultShow").text(null);
+            });
+            $("#reset").click(function () {
+                loadContent();
+            });
+        }
+        function loadContent(){
+            $("#resultShow").text('请求中...');
+            jQuery.ajax( {
+                url : "textTemp/getText",
+                cache : false,
+                data:JSON.stringify({"idx":0}),
+                type : "POST",
+                beforeSend: function(request) {
+                    request.setRequestHeader("Content-Type","application/json; charset=UTF-8");
+                },
+                success : function(data, testStatus) {
+                    console.log(data);
+                    let dateStr = formatDateTime(new Date, 'yyyy-MM-dd hh:mm:ss.SSS');
+                    if(data.code == 0){
+                        $("#textcont").val(data.data)
+                        $("#resultShow").text(dateStr + '，加载成功');
+                    }else{
+                        $("#resultShow").text(dateStr + '，加载失败');
+                    }
+                },
+                error : function(XMLHttpRequest, textStatus, errorThrown) {
+                    $("#resultShow").text(formatDateTime(new Date, 'yyyy-MM-dd hh:mm:ss.SSS') + '，加载失败');
+                }
+            });
+        }
+    </script>
+</head>
+
+<body>
+    <div style="display: flex">
+        <div style="max-width: 100%;">
+            <textarea id="textcont" rows="20" cols="100" style="max-width: calc(100% - 8px);"></textarea>
+            <br/>
+            <br/>
+            <div style="text-align: right;">
+                <button id="reset" style="margin-right: 30px;">重置</button>
+                <button id="clear" style="margin-right: 30px;">清空</button>
+                <button id="save">保存</button>
+            </div>
+            <br/>
+            <div id="resultShow" style="text-align: right;"></div>
+        </div>
+    </div>
+</body>
+</html>
